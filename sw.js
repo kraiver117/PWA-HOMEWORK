@@ -13,9 +13,8 @@ const  urlsToCache = [
     './script.js',
     './img/Origen.png',
     './img/favicon.png',
-    './api.js',
-    './index.html'
-
+    './index.html',
+    'http://jsonplaceholder.typicode.com/users'
   ]
 
 //durante la fase de instalación, generalmente se almacena en caché los activos estáticos
@@ -68,21 +67,13 @@ if(e.request.url.indexOf(data_Url)===0){
   })
   );
 }else{
-  console.log('[ServiceWorker] not found');
   //Responder ya sea con el objeto en caché o continuar y buscar la url real
       e.respondWith(
         caches.match(e.request)
           .then(res => {
-            if (res) {
-              //recuperar del cache
-              return res
-              
-            }
-            //recuperar de la petición a la url
-           
-            return fetch(e.request)
-          
+            return res || fetch(e.request)
           })
       )
     }
 })
+
