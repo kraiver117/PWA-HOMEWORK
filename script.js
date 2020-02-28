@@ -33,21 +33,20 @@ fetch(url)
 
 
 
-function getApiDataFromCache() {
-  // CODELAB: Add code to get weather forecast from the caches object.
-  if (!('caches' in window)) {
-    return null;
-  }
-  const url = 'http://jsonplaceholder.typicode.com/users';
-  return caches.match(url)
-      .then((response) => {
-        if (response) {
-          return response.json();
+if ('caches' in window) {
+  caches.match(url).then(function(response) {
+    if (response) {
+      response.json().then(function(json) {
+        // Only update if the XHR is still pending, otherwise the XHR
+        // has already returned and provided the latest data.
+        console.log('updated from cache');
+        if (hasRequestPending) {
+          console.log('updated from cache');
+          json.key = key;
+          json.label = label;
+          //app.updateForecastCard(json);
         }
-        return null;
-      })
-      .catch((err) => {
-        console.error('Error getting data from cache', err);
-        return null;
       });
+    }
+  });
 }
