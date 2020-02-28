@@ -45,29 +45,20 @@
       
     </div>
   </header>
+  <div id='element'></div>
   <main class="Main">
     <iframe width="560" height="315" src="https://www.youtube.com/embed/diz8JwXNX3w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </main>
+  <script src="./Api.js"></script>
   <script src="./script.js"></script>
   <script>
-    const url= 'http://jsonplaceholder.typicode.com/users'
-
-fetch(url)
-.then (response => response.json())
-.then (data => {
-
-    let element =document.getElementById('elem')
-    element.innerHTML=`
-    <p>${data[0].name}</p>
-    <p>${data[0].username}</p>
-    <p>${data[0].email}</p>
-    <p>${data[0].address.street}</p>
-    <p>${data[0].address.suite}</p>`
-    console.log(data)
-
-})
-.catch(err => console.log(err))
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(reg => console.log('Registro de SW exitoso', reg))
+    .catch(err => console.warn('Error al tratar de registrar el sw', err))
+}
   </script>
+  
 </body>
 
 </html>

@@ -1,7 +1,9 @@
 
 //asignar un nombre y versión al cache
-const CACHE_NAME = 'v1_PWA',
-  urlsToCache = [
+const CACHE_NAME = 'v1_PWA';
+const Data_CACHE_NAME='api-chache-v1';
+
+const  urlsToCache = [
     './',
     'https://fonts.googleapis.com/css?family=Raleway:400,700',
     'https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwJYtWqZPAA.woff2',
@@ -51,16 +53,36 @@ self.addEventListener('activate', e => {
 
 //cuando el navegador recupera una url
 self.addEventListener('fetch', e => {
-  //Responder ya sea con el objeto en caché o continuar y buscar la url real
+  var data_Url='http://jsonplaceholder.typicode.com/users';
+
+if(e.request.url.indexOf(data_Url)===0){
+  //Manejador de datos 
   e.respondWith(
-    caches.match(e.request)
-      .then(res => {
-        if (res) {
-          //recuperar del cache
-          return res
-        }
-        //recuperar de la petición a la url
-        return fetch(e.request)
-      })
-  )
+  fetch(e.request)
+  .then(function(response){
+    return caches.open(Data_CACHE_NAME).then(function(cache){
+      cache.put(e.request.url,response.clone());
+      console.log(response);
+      return response;
+    });
+  })
+  );
+}else{
+  console.log('[ServiceWorker] not found');
+  //Responder ya sea con el objeto en caché o continuar y buscar la url real
+      e.respondWith(
+        caches.match(e.request)
+          .then(res => {
+            if (res) {
+              //recuperar del cache
+              return res
+              
+            }
+            //recuperar de la petición a la url
+           
+            return fetch(e.request)
+          
+          })
+      )
+    }
 })
