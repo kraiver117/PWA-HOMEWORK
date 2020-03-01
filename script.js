@@ -16,7 +16,7 @@
 // }
 
 
-const url='http://jsonplaceholder.typicode.com/users'
+var url='https://jsonplaceholder.typicode.com/posts'
 let cache=[]
 
 function getDataFromNetwork(url){
@@ -28,10 +28,10 @@ var req = new Request(url)
         cache=data
         let element=document.getElementById('element')
         element.innerHTML=`
-        <p>${data[0].name}</p>
-        <p>${data[1].email}</p>
-        <p>${cache[0].name}</p>
-        <p>${cache[1].name}</p>`
+        <p>${data[0].title}</p>
+        <p>${data[1].body}</p>
+        <p>${cache[0].title}</p>
+        <p>${cache[1].body}</p>`
         console.log(cache)
         
     })
@@ -39,14 +39,11 @@ var req = new Request(url)
 }
 
 
-
-
-
 function getDataFromCache(){
   if (!('caches' in window)) {
     return null;
   }
-  const url = `http://jsonplaceholder.typicode.com/users`;
+ 
   return caches.match(url)
       .then((response) => {
         if (response) {
@@ -60,9 +57,6 @@ function getDataFromCache(){
         return null;
       });
 }
-
-
-
 
 getDataFromCache()
 getDataFromNetwork(url)

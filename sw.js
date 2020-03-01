@@ -14,7 +14,9 @@ const  urlsToCache = [
     './img/Origen.png',
     './img/favicon.png',
     './index.html',
-    'http://jsonplaceholder.typicode.com/users'
+    'http://jsonplaceholder.typicode.com/users',
+    'http://dummy.restapiexample.com/api/v1/employees',
+    'https://jsonplaceholder.typicode.com/posts'
   ]
 
 //durante la fase de instalación, generalmente se almacena en caché los activos estáticos
@@ -52,7 +54,8 @@ self.addEventListener('activate', e => {
 
 //cuando el navegador recupera una url
 self.addEventListener('fetch', e => {
-  var data_Url='http://jsonplaceholder.typicode.com/users';
+  //Url del cache
+  var data_Url='/posts';
 
 if(e.request.url.indexOf(data_Url)===0){
   //Manejador de datos 
@@ -61,7 +64,7 @@ if(e.request.url.indexOf(data_Url)===0){
   .then(function(response){
     return caches.open(Data_CACHE_NAME).then(function(cache){
       cache.put(e.request.url,response.clone());
-      console.log(response);
+      console.log(response+'Cloning');
       return response;
     });
   })
@@ -71,6 +74,7 @@ if(e.request.url.indexOf(data_Url)===0){
       e.respondWith(
         caches.match(e.request)
           .then(res => {
+            console.log("Path2")
             return res || fetch(e.request)
           })
       )
