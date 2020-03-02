@@ -28,11 +28,12 @@ var req = new Request(url)
         cache=data
         let element=document.getElementById('element')
         element.innerHTML=`
-        <p>${data[0].title}</p>
-        <p>${data[1].body}</p>
-        <p>${cache[0].title}</p>
-        <p>${cache[1].body}</p>`
-        console.log(cache)
+        <div>
+          <h1>Data API</h1>
+          <p>${data[0].title}</p>
+          <p>${data[1].body}</p>
+          
+        </div>`
         
     })
     .catch(err => console.log(err))

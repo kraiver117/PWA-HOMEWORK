@@ -14,8 +14,6 @@ const  urlsToCache = [
     './img/Origen.png',
     './img/favicon.png',
     './index.html',
-    'http://jsonplaceholder.typicode.com/users',
-    'http://dummy.restapiexample.com/api/v1/employees',
     'https://jsonplaceholder.typicode.com/posts'
   ]
 
